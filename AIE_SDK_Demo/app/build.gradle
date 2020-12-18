@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    lintOptions {
+        abortOnError false;
+    }
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.aiedevice.sdkdemo"
+        minSdkVersion 18
+        targetSdkVersion 25
+        versionCode 2
+        versionName "1.0.13"
+        multiDexEnabled true
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "自行前往个推开放平台申请",
+                GETUI_APP_KEY   : "自行前往个推开放平台申请",
+                GETUI_APP_SECRET:  "自行前往个推开放平台申请"
+        ]
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86_64", "x86"
+        }
+
+        signingConfig signingConfigs.debug
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir('libs')
+            assets.srcDirs = ['src/main/assets']
+        }
+
+    }
+}
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "http://maven.365jiating.com/nexus/content/repositories/liveplayer/"
+    }
+    flatDir {
+        dirs 'libs'
+    }
+    google()
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.3.0'
+    implementation 'com.android.support:design:25.3.0'
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'io.reactivex:rxjava:1.1.8'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation(name: 'blufilibrary', ext: 'aar')
+    implementation(name: 'stpsdk-2.0.1', ext: 'aar')
+    api 'com.getui:sdk:2.14.0.0'
+
+}

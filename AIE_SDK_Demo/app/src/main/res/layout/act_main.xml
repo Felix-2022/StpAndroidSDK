@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_cur_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前选中设备：" />
+
+        <TextView
+            android:id="@+id/sn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_cur_device"></TextView>
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_cur_device"
+            android:layout_marginTop="10dp"
+            android:text="设备名称：" />
+
+        <EditText
+            android:id="@+id/device_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sn"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:layout_toRightOf="@id/tv_device_name"
+            android:textSize="12sp"></EditText>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/bind_pen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="点读笔配网"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/btn_device"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="设备管理"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/device_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/update_device_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="修改名称"
+
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/volume_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="音量+"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/volume_reduce"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="音量-"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/unbind"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="解除绑定"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_study"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="学习报告"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/btn_book"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="绘本管理"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/book_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/darker_gray"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/all_books"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="全部绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/search_book"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="搜索绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/device_books"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="设备内绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/book_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="绘本详情"
+                android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/download_book"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="下载绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/delete_book"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="删除绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/delete_books"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="批量删除绘本"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/storage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="存储卡空间"
+                android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/all_reading_package"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="全部点读包列表"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/device_reading_package"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="已下载点读包列表"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/study_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/read_book_page"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已读绘本(分页)"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/read_book_range"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已读绘本(时间)"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/report_page"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="学习报告(分页)"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/report_range"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="学习报告(时间)"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/report_trend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="报告趋势"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_classroom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="同步课堂"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="登出"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/classroom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/bind_push_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="绑定个推Id"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/classroom_switcher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/classroom_close"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/classroom_heart_beat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="同步课堂心跳"
+            android:textSize="@dimen/button_text_size" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="点击可切换操作设备"></TextView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_device_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp" />
+</LinearLayout>

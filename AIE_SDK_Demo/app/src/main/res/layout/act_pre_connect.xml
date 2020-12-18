@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/bg_yellow"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left|top"
+            android:padding="15dp"
+            android:src="@drawable/config_net_icon_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="操作设备进入联网模式"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1、 同时按住音量-和模式键开启配网模式\n\n2、听到设备联网提示音后点击下一步"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="164dp"
+            android:layout_height="147dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/config_net_tips" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:background="@color/bg_yellow"
+        android:padding="15dp"
+        android:text="设备进入联网模式后，下一步"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>

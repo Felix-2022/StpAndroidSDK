@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aiedevice.sdkdemo">
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- begin Push service 运行需要的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name="com.aiedevice.sdkdemo.MyApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.aiedevice.sdkdemo.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.aiedevice.sdkdemo.activity.account.AccountManagerActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceManageActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.device.MasterListActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceStatusActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceSettingsActivity" />
+
+        <activity
+            android:name="com.aiedevice.sdkdemo.activity.blufi.PreConnectActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.aiedevice.sdkdemo.activity.blufi.SearchDeviceActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="com.aiedevice.sdkdemo.activity.blufi.SetWifiInfoActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="com.aiedevice.sdkdemo.activity.blufi.SendWifiInfoActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.PicBookManagerActiviy" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.PicbookUploadActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.SdcardManagerActivity" />
+        <activity android:name="com.aiedevice.sdkdemo.activity.study.ClassroomActivity" />
+        <service
+            android:name="com.aiedevice.sdkdemo.push.StpPushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.aiedevice.sdkdemo.push.StpIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+    </application>
+
+</manifest>
