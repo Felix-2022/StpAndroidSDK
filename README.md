@@ -72,7 +72,8 @@ AccountManager.setDeviceInfo(设备ID,设备APPId);
 ## 点读笔配网集成
 ```
 ### 1.接入SdkDemo中的blufilibrary.aar
-### 
+### 2.参考com.aiedevice.sdkdemo.activity.blufi目录下有完整配网代码，请参考
+
 ```
 
 ## 同步课堂集成
