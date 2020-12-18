@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/bg_yellow">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="15dp"
+            android:src="@drawable/config_net_icon_back" />
+
+        <TextView
+            android:id="@+id/tv_state_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="47dp"
+            android:text="输入设备需要链接的WIFI信息"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_state_search"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="暂不支持5G WIFI"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.aiedevice.sdkdemo.view.MyEditText
+            android:id="@+id/et_ssid"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:drawableRight="@drawable/config_net_icon_ssid"
+            android:hint="请输入WiFi账号" />
+
+        <com.aiedevice.sdkdemo.view.MyEditText
+            android:id="@+id/et_passwd"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/config_net_icon_hide"
+            android:hint="请输入密码" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_connect"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="256dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="44dp"
+        android:background="@color/bg_yellow"
+        android:text="连接Wifi"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">STP-SDK-Demo</string>
+    <string name="not_support_ble">手机不支持蓝牙配网</string>
+    <string name="login_activity_login_failed">登录失败</string>
+    <string name="unbind_dialog">确定要解除绑定么？</string>
+    <string name="logout_dialog">确定要退出登录么？</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+</resources>
+
