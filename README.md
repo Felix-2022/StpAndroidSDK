@@ -1,7 +1,7 @@
 # StpAndroidSDK
 
 ## 概述
-本 SDK 主要提供了百进智能点读笔常用的五大模块接口
+本 SDK 主要提供了AIE智能点读笔常用的五大模块接口
 
 + 账号管理
   1. 登录
@@ -40,7 +40,7 @@
  
 ## 快速集成
 
-### 1. 由百进分配唯一的PackageId
+### 1. 由AIE分配唯一的PackageId
 ### 2. 接入stpsdk-版本号.aar
 ### 3. 初始化SDK
   ```
@@ -53,11 +53,11 @@
    */
    StpSDK.getInstance().init(this, PACKAGE_ID, SDKConfig.ENV_ONLINE);
   ```
-### 4. 登录:百进账号或第三方鉴权登录二选一
+### 4. 登录:AIE账号或第三方鉴权登录二选一
 > 注意：使用第三方鉴权登录前，需要双方服务器端研发先联调完服务器间鉴权接口
 ```
  
-百进账号登录
+AIE账号登录
 AccountManager.login(context, 手机号, 密码, 回调)
   
 第三方登录接口
@@ -78,10 +78,10 @@ AccountManager.setDeviceInfo(设备ID,设备APPId);
 
 ## 同步课堂集成
 ### 1. 客户自行在个推开放平台上注册应用
-### 2. 将注册好的个推AppID、AppKey、AppSecret提供给百进
+### 2. 将注册好的个推AppID、AppKey、AppSecret提供给AIE
 ### 3. 客户APP接入个推sdk
 ### 4. 个推sdk注册成功后得到个推clientId
-### 5. 请求百进接口绑定个推clientId
+### 5. 请求AIE接口绑定个推clientId
 ```
 注册方式有2种，
 1. 未登录时已经获得个推clientId，在第三方登录接口时注册：AccountManager.loginEx
@@ -128,7 +128,7 @@ public static boolean sendSyncHeartbeat(Context context, ResultListener listener
 ```
 ### 8. 点读笔进入点读模式，点击有视频讲解的绘本
 
-### 9.个推收到带有同步课堂视频连接的个推消息
+### 9.App端收到个推带有教研在后台配置好的，同步课堂视频链接消息，解析与视频播放自行完成
 
  
  
@@ -137,7 +137,7 @@ public static boolean sendSyncHeartbeat(Context context, ResultListener listener
 ### 账号管理AccountManager
 ```
 /**
-* 百进账号登录
+* AIE账号登录
 *
 * @param context
 * @param phone    手机
@@ -393,7 +393,7 @@ public static void getDeviceStorage(Context context, ResultListener listener)
 public static void getAllReadingPackage(Context context, int from, int size, ResultListener listener)
 
 /**
-* 获取已下载的点读包列表
+* 获取下载的点读包列表
 *
 * @param context
 * @param from     从第几条数据开始，0起始
@@ -424,7 +424,7 @@ public static void setPushId(Context context, String pushId, ResultListener list
 public static void syncSwitch(Context context, boolean isOpen, ResultListener listener)    
 
 /**
-* 同步课堂心跳，业务端30秒轮训一次，弱超过30S*2未发送心跳，则服务器关闭同步课堂不再发送长连接
+* 同步课堂心跳，业务端30秒轮训一次，若超过30S*2未发送心跳，则服务器关闭同步课堂不再发送长连接
 *
 * @param context
 * @param listener
