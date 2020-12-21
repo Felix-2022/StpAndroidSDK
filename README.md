@@ -19,7 +19,7 @@
   
 + 学习报告
   1. 已读绘本列表(按日期查询、倒叙分页查询)
-  2. 各项学习数据(点读、跟读、日报）(按日期查询、倒叙分页查询)
+  2. 各项学习数据(跟读）(按日期查询、倒叙分页查询)
   3. 各项报告趋势(点读、跟读、学习时长、阅读绘本数)
   
 + 绘本管理
@@ -129,8 +129,6 @@ public static boolean sendSyncHeartbeat(Context context, ResultListener listener
 ### 8. 点读笔进入点读模式，点击有视频讲解的绘本
 
 ### 9.App端收到个推带有教研在后台配置好的，同步课堂视频链接消息，解析与视频播放自行完成
-
- 
  
 ## 各模块接口说明
 
@@ -191,6 +189,17 @@ public static String getDeviceId() {
 return SharedPreferencesUtil.getDeviceId();
 }
 ```
+#### 账号管理AccountManager常用对象
+```
+/**
+* 登录返回常用信息
+*/
+public class BeanLoginData {
+    private List<BeanDeviceDetail> devices;//绑定设备列表，BeanDeviceDetail详见设备管理模块的常用对象
+}
+
+```
+
   ### 设备管理DeviceManager
 ```
 /**
@@ -248,6 +257,38 @@ public static void deleteDevice(Context context, ResultListener listener)
     
     
 ```
+#### 设备管理DeviceManager常用对象
+
+```
+/**
+* 设备详细信息
+*/
+public class BeanDeviceDetail  {
+    private String id;//设备ID
+    private String appId;//设备所属AppId
+    private String name;//设备昵称
+    private boolean online;//是否在线
+    private int volume;//当前音量
+    private String wifissid;//当前连接wifi名称
+    private int battery;//电量 0 - 100
+ }
+
+/**
+* 设备硬件信息集合
+*/
+  public class BeanDeviceHardwareList {
+     List<BeanDeviceHardwareAttr> list;
+  }
+  
+/**
+* 设备硬件信息属性(wifi名称、IP地址、Mac地址、设备类型、设备ID)
+*/  
+  public class BeanDeviceHardwareAttr {
+    String key;
+    String val;
+  }
+ ```
+
 ### 学习报告StudyManager
 ```
 /**
@@ -272,7 +313,7 @@ public static void getPicBookList(Context context, String startDate, String endD
 /**
 * 学习报告(按数量查询)
 *
-* @param type       StudyConstants.TYPE_POINT_READING:点读次数,TYPE_FOLLOW_READING:跟读次数
+* @param type       TYPE_FOLLOW_READING:跟读次数
 * @param withDetail 1：返回详情 0:没有详情
 * @param from       从第几条数据开始
 * @param size       返回多少条数据
@@ -284,7 +325,7 @@ public static void getReportList(Context context, String type, int withDetail, i
 /**
 * 学习报告(按时间查询)
 *
-* @param type       StudyConstants.TYPE_POINT_READING:点读次数,TYPE_FOLLOW_READING:跟读次数,
+* @param type       TYPE_FOLLOW_READING:跟读次数
 * @param withDetail 1：返回详情 0:没有详情
 * @param startDate  开始时间，格式"yyyy-MM-dd"
 * @param endDate    截止时间，格式"yyyy-MM-dd"
@@ -306,6 +347,75 @@ public static void getReportTrend(Context context, String type, String startDate
 
     
 ```
+#### 学习报告StudyManager常用对象
+```
+/**
+*  已阅读书籍列表
+*/
+public class BeanReportBookList {
+    int id; 
+    String name;//日期（yyyy-MM-dd）
+    BeanReportBookListExtra extra;//已阅读书籍详细信息
+    List<BeanBookDetail> books;//书籍详情，参见绘本管理的常用对象
+}
+
+/**
+*  已阅读书籍详细信息
+*/
+public class BeanReportBookListExtra{
+    String[] bookIds;//阅读的图书id数组
+    int bookCnt;//阅读的图书数量
+    int pointReadingCnt;//点读次数
+    int followReadingCnt;//跟读次数
+    int duration;//学习时长
+}
+
+/**
+*  学习报告列表
+*/
+public class BeanReportList  {
+    String type;//报告类型（follow-reading：跟读次数）
+    String name;日期（yyyy-MM-dd）
+    BeanReportListExtra extra;//学习报告详情
+}
+
+/**
+*  学习报告详情
+*/
+public class BeanReportListExtra  {
+    int cnt;
+    List<BeanFollow> list;
+}
+
+/**
+*  跟读详情
+*/
+public class BeanFollow   {
+    String book_id;//书籍id
+    String oid;//点位id
+    String text;//跟读文本
+    String url;//跟读录音
+    int score;//跟读得分
+}
+
+/**
+* 报告趋势
+*/
+public class BeanReportTrend {
+    int total;//总趋势记录数条数
+    List<BeanReportTrendDay> list;// 报告趋势详情集合
+}
+
+/**
+* 报告趋势详情
+*/
+
+public class BeanReportTrendDay  {
+    String day;
+    int value;
+}
+```
+
 ### 绘本管理BookManager
 ```
 /**
@@ -402,8 +512,45 @@ public static void getAllReadingPackage(Context context, int from, int size, Res
 */
 public static void getDeviceReadingPackage(Context context, int from, int size, ResultListener listener)
 
-
 ```
+
+#### 绘本管理BookManager常用对象
+```
+/**
+*  绘本列表
+*/
+public class BeanBookListResult {
+    private List<BeanBookDetail> list;//绘本集合
+    private int total;//数据总数
+}
+
+/**
+*  绘本详情
+*/
+public class BeanBookDetail {
+    private int id;
+    private String mid;//资源唯一id
+    private String bookName;//书名
+    private String author;//作者
+    private String cover;//封面地址
+    private long size;//点读包类型时为点读包大小，绘本类型时0
+    private int status; //添加状态 0未添加 1已添加
+    private int progress;//下载进度
+    private String readGuideHtml;//图文描述
+    private int downloadable; //是否可以下载 0：否 1：是
+    private int downloadStatus;//下载状态 0:等待下载 1：下载中 2：下载完成 3：下载是失败
+ }
+ 
+ /**
+*  点读笔存储状态
+*/
+ public class BeanStorageStatus {
+    private int memoryTotal;//总存储空间（单位M）
+    private int memoryUsed;//已使用存储空间（单位M）
+ }
+ 
+```
+
 ### 同步课堂ClassRoomManager
 ```
 /**
