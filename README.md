@@ -478,7 +478,7 @@ public static void deleteBook(Context context, String mid, ResultListener listen
 * 批量删除设备已下载绘本
 *
 * @param context
-* @param bookIdList 书ID集合
+* @param bookIdList 书ID集合(一次最多10个id)
 * @param listener
 */
 public static void deleteBookList(Context context, List<String> bookIdList, ResultListener listener) 
