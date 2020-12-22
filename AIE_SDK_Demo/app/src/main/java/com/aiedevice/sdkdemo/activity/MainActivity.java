@@ -28,7 +28,7 @@ import com.aiedevice.sdk.device.DeviceManager;
 import com.aiedevice.sdk.device.bean.BeanDeviceDetail;
 import com.aiedevice.sdk.study.StudyConstants;
 import com.aiedevice.sdk.study.StudyManager;
-import com.aiedevice.sdk.study.bean.BeanBookList;
+import com.aiedevice.sdk.study.bean.BeanReportBookList;
 import com.aiedevice.sdk.study.bean.BeanReportList;
 import com.aiedevice.sdk.study.bean.BeanReportTrend;
 import com.aiedevice.sdk.study.bean.BeanReportTrendDay;
@@ -331,9 +331,9 @@ public class MainActivity extends StpBaseActivity {
                     public void onSuccess(BeanResult beanResult) {
                         Log.i(TAG, "onSuccess data:" + beanResult.getData());
                         Gson gson = GsonUtils.getGson();
-                        List<BeanBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanBookList>>() {
+                        List<BeanReportBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportBookList>>() {
                         }.getType());
-                        for (BeanBookList bookListResult : list) {
+                        for (BeanReportBookList bookListResult : list) {
                             Log.i(TAG, "date:" + bookListResult.getName());
                         }
                         Toaster.show(R.string.request_success);
@@ -354,9 +354,9 @@ public class MainActivity extends StpBaseActivity {
                     public void onSuccess(BeanResult beanResult) {
                         Log.i(TAG, "onSuccess data:" + beanResult.getData());
                         Gson gson = GsonUtils.getGson();
-                        List<BeanBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanBookList>>() {
+                        List<BeanReportBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportBookList>>() {
                         }.getType());
-                        for (BeanBookList bookListResult : list) {
+                        for (BeanReportBookList bookListResult : list) {
                             Log.i(TAG, "date:" + bookListResult.getName());
                         }
                         Toaster.show(R.string.request_success);
@@ -372,7 +372,7 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.report_page:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_POINT_READING, 0, mFrom, mSize, new ResultListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mFrom, mSize, new ResultListener() {
                     @Override
                     public void onSuccess(BeanResult beanResult) {
                         Log.i(TAG, "onSuccess data:" + beanResult.getData());
@@ -395,7 +395,7 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.report_range:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_POINT_READING, 0, mStartDay, mEndDay, new ResultListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mStartDay, mEndDay, new ResultListener() {
                     @Override
                     public void onSuccess(BeanResult beanResult) {
                         Log.i(TAG, "onSuccess data:" + beanResult.getData());
