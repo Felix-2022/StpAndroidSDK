@@ -1,2 +1,4 @@
 include ':app'
+//include ':stpsdk'
+//project(":stpsdk").projectDir = new File("../../AIE_SDK_Lib/stpsdk")
 

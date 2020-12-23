@@ -11,16 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aiedevice.sdk.account.AccountManager;
-import com.aiedevice.sdk.base.bean.BeanResult;
-import com.aiedevice.sdk.base.net.ResultListener;
+import com.aiedevice.sdk.device.DeviceDetailListener;
+import com.aiedevice.sdk.device.DeviceHardwareAttrListener;
 import com.aiedevice.sdk.device.DeviceManager;
 import com.aiedevice.sdk.device.bean.BeanDeviceDetail;
 import com.aiedevice.sdk.device.bean.BeanDeviceHardwareAttr;
 import com.aiedevice.sdk.device.bean.BeanDeviceHardwareList;
-import com.aiedevice.sdk.util.GsonUtils;
 import com.aiedevice.sdkdemo.R;
 import com.aiedevice.sdkdemo.utils.Toaster;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -76,7 +74,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         MasterViewHolder viewHolder = (MasterViewHolder) holder;
         viewHolder.id.setText(" 设备ID :" + detail.getId());
         viewHolder.name.setText(" 设备名称 :" + detail.getName());
-         viewHolder.root_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.root_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mLastSelectView != null)
@@ -92,14 +90,11 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.btn_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeviceManager.getDeviceDetail(mContext, new ResultListener() {
+                DeviceManager.getDeviceDetail(mContext, new DeviceDetailListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "device detail:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        BeanDeviceDetail deviceDetail = gson.fromJson(beanResult.getData(), BeanDeviceDetail.class);
-                        Log.i(TAG, "deviceDetail.name:" + deviceDetail.getName());
-                        Toaster.show(beanResult.getData());
+                    public void onSuccess(BeanDeviceDetail beanResult) {
+                        Log.i(TAG, "deviceDetail:" + beanResult.toString());
+                        Toaster.show(beanResult.toString());
                     }
 
                     @Override
@@ -113,16 +108,13 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.btn_hardware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeviceManager.getDeviceHardwareInfo(mContext, new ResultListener() {
+                DeviceManager.getDeviceHardwareInfo(mContext, new DeviceHardwareAttrListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "device hardware:" + beanResult.getData());
-                        Toaster.show(beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        BeanDeviceHardwareList bean = gson.fromJson(beanResult.getData(), BeanDeviceHardwareList.class);
-                        for (BeanDeviceHardwareAttr attr : bean.getList()) {
-                            Log.i(TAG, "attr key:" + attr.getKey() + ",value:" + attr.getVal());
+                    public void onSuccess(BeanDeviceHardwareList beanResult) {
+                        for (BeanDeviceHardwareAttr attr : beanResult.getList()) {
+                            Log.i(TAG, "BeanDeviceHardwareAttr:" + attr.toString());
                         }
+                        Toaster.show(beanResult.toString());
                     }
 
                     @Override
@@ -132,6 +124,8 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 });
             }
         });
+
+
         if (mLastSelectView == null) {
             mLastSelectView = viewHolder.root_layout;
             viewHolder.root_layout.setSelected(true);

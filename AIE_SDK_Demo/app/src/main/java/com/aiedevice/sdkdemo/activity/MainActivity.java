@@ -16,32 +16,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aiedevice.sdk.account.AccountManager;
+import com.aiedevice.sdk.account.LoginListener;
 import com.aiedevice.sdk.account.bean.BeanLoginData;
 import com.aiedevice.sdk.base.bean.BeanResult;
 import com.aiedevice.sdk.base.net.ResultListener;
+import com.aiedevice.sdk.book.BookDetailListener;
+import com.aiedevice.sdk.book.BookListListener;
 import com.aiedevice.sdk.book.BookManager;
+import com.aiedevice.sdk.book.StorageListener;
 import com.aiedevice.sdk.book.bean.BeanBookDetail;
 import com.aiedevice.sdk.book.bean.BeanBookListResult;
 import com.aiedevice.sdk.book.bean.BeanStorageStatus;
 import com.aiedevice.sdk.classroom.ClassRoomManager;
+import com.aiedevice.sdk.device.DeviceListListener;
 import com.aiedevice.sdk.device.DeviceManager;
 import com.aiedevice.sdk.device.bean.BeanDeviceDetail;
+import com.aiedevice.sdk.device.bean.BeanDeviceList;
+import com.aiedevice.sdk.study.ReportBookListListener;
+import com.aiedevice.sdk.study.ReportListListener;
+import com.aiedevice.sdk.study.ReportTrendListener;
 import com.aiedevice.sdk.study.StudyConstants;
 import com.aiedevice.sdk.study.StudyManager;
 import com.aiedevice.sdk.study.bean.BeanReportBookList;
 import com.aiedevice.sdk.study.bean.BeanReportList;
 import com.aiedevice.sdk.study.bean.BeanReportTrend;
 import com.aiedevice.sdk.study.bean.BeanReportTrendDay;
-import com.aiedevice.sdk.util.GsonUtils;
 import com.aiedevice.sdkdemo.R;
 import com.aiedevice.sdkdemo.activity.blufi.PreConnectActivity;
 import com.aiedevice.sdkdemo.adapter.DeviceListAdapter;
-import com.aiedevice.sdk.device.bean.BeanDeviceList;
 import com.aiedevice.sdkdemo.bean.GlobalVars;
 import com.aiedevice.sdkdemo.utils.Toaster;
 import com.aiedevice.sdkdemo.utils.VolumeHelper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,7 +89,7 @@ public class MainActivity extends StpBaseActivity {
     private static final int mSize = 10;
     private static final String mStartDay = "2020-12-17";
     private static final String mEndDay = "2020-12-18";
-    private static final String MID = "YWlyZXM6MjU3NzU4OQ";//图书id
+    private static final String MID = "YWlyZXM6MjU3NzIyMA";//图书id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +134,10 @@ public class MainActivity extends StpBaseActivity {
         /**
          * AIE账号登录
          */
-        AccountManager.login(mContext, DEMO_PHONE, DEMO_PWD, new ResultListener() {
+        AccountManager.login(mContext, DEMO_PHONE, DEMO_PWD, new LoginListener() {
             @Override
-            public void onSuccess(BeanResult result) {
+            public void onSuccess(BeanLoginData loginData) {
                 try {
-                    Gson gson = GsonUtils.getGson();
-                    BeanLoginData loginData = gson.fromJson(result.getData(), BeanLoginData.class);
                     if (loginData.getDevices() != null && loginData.getDevices().size() > 0) {
                         /**
                          * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
@@ -169,12 +172,10 @@ public class MainActivity extends StpBaseActivity {
 //        /**
 //         * 第三方账号登录
 //         */
-//        AccountManager.loginEx(mContext, "客户用户唯一标识", "客户用户鉴权码", new ResultListener() {
+//        AccountManager.loginEx(mContext, "客户用户唯一标识", "客户用户鉴权码", new LoginListener() {
 //            @Override
-//            public void onSuccess(BeanResult result) {
+//            public void onSuccess(BeanLoginData loginData) {
 //                try {
-//                    Gson gson = GsonUtils.getGson();
-//                    BeanLoginData loginData = gson.fromJson(result.getData(), BeanLoginData.class);
 //                    if (loginData.getDevices() != null && loginData.getDevices().size() > 0) {
 //                        /**
 //                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
@@ -209,12 +210,10 @@ public class MainActivity extends StpBaseActivity {
     }
 
     private void getDeviceList() {
-        DeviceManager.getDeviceList(mContext, new ResultListener() {
+        DeviceManager.getDeviceList(mContext, new DeviceListListener() {
             @Override
-            public void onSuccess(BeanResult beanResult) {
-                Gson gson = GsonUtils.getGson();
-                BeanDeviceList listData = gson.fromJson(beanResult.getData(), BeanDeviceList.class);
-                mDeviceListAdapter.setItems(listData.getDeviceList());
+            public void onSuccess(BeanDeviceList beanResult) {
+                mDeviceListAdapter.setItems(beanResult.getDeviceList());
                 Toaster.show("获取设备列表成功");
             }
 
@@ -224,7 +223,6 @@ public class MainActivity extends StpBaseActivity {
                 Toaster.show("获取设备列表失败 错误:" + errMsg);
             }
         });
-
     }
 
     @OnClick({R.id.btn_device, R.id.btn_study, R.id.update_device_name, R.id.volume_add, R.id.volume_reduce, R.id.btn_book, R.id.btn_logout, R.id.btn_classroom, R.id.bind_pen, R.id.classroom_switcher, R.id.classroom_heart_beat, R.id.bind_push_id, R.id.read_book_page, R.id.read_book_range, R.id.report_range, R.id.report_page, R.id.report_trend, R.id.unbind, R.id.all_books, R.id.search_book, R.id.device_books, R.id.book_detail, R.id.download_book, R.id.delete_book, R.id.delete_books, R.id.storage, R.id.all_reading_package, R.id.device_reading_package})
@@ -326,18 +324,13 @@ public class MainActivity extends StpBaseActivity {
                 }
                 break;
             case R.id.read_book_page:
-                StudyManager.getPicBookList(mContext, mFrom, mSize, new ResultListener() {
+                StudyManager.getPicBookList(mContext, mFrom, mSize, new ReportBookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        List<BeanReportBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportBookList>>() {
-                        }.getType());
-                        for (BeanReportBookList bookListResult : list) {
-                            Log.i(TAG, "date:" + bookListResult.getName());
+                    public void onSuccess(List<BeanReportBookList> beanResult) {
+                        for (BeanReportBookList bookListResult : beanResult) {
+                            Log.i(TAG, "BeanReportBookList:" + bookListResult.toString());
                         }
                         Toaster.show(R.string.request_success);
-
                     }
 
                     @Override
@@ -349,41 +342,30 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.read_book_range:
-                StudyManager.getPicBookList(mContext, mStartDay, mEndDay, new ResultListener() {
+                StudyManager.getPicBookList(mContext, mStartDay, mEndDay, new ReportBookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        List<BeanReportBookList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportBookList>>() {
-                        }.getType());
-                        for (BeanReportBookList bookListResult : list) {
-                            Log.i(TAG, "date:" + bookListResult.getName());
+                    public void onSuccess(List<BeanReportBookList> beanResult) {
+                        for (BeanReportBookList bookListResult : beanResult) {
+                            Log.i(TAG, "bookListResult:" + bookListResult.toString());
                         }
                         Toaster.show(R.string.request_success);
-
                     }
 
                     @Override
                     public void onError(int errCode, String errMsg) {
                         Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
                         Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
-
                     }
                 });
                 break;
             case R.id.report_page:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mFrom, mSize, new ResultListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mFrom, mSize, new ReportListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        List<BeanReportList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportList>>() {
-                        }.getType());
-                        for (BeanReportList bookListResult : list) {
-                            Log.i(TAG, "date:" + bookListResult.getName());
+                    public void onSuccess(List<BeanReportList> beanResult) {
+                        for (BeanReportList bookListResult : beanResult) {
+                            Log.i(TAG, "BeanReportList:" + bookListResult.toString());
                         }
                         Toaster.show(R.string.request_success);
-
                     }
 
                     @Override
@@ -395,15 +377,11 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.report_range:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mStartDay, mEndDay, new ResultListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mStartDay, mEndDay, new ReportListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        List<BeanReportList> list = gson.fromJson(beanResult.getData(), new TypeToken<List<BeanReportList>>() {
-                        }.getType());
-                        for (BeanReportList bookListResult : list) {
-                            Log.i(TAG, "date:" + bookListResult.getName());
+                    public void onSuccess(List<BeanReportList> beanResult) {
+                        for (BeanReportList bookListResult : beanResult) {
+                            Log.i(TAG, "BeanReportList:" + bookListResult.toString());
                         }
                         Toaster.show(R.string.request_success);
                     }
@@ -416,14 +394,11 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.report_trend:
-                StudyManager.getReportTrend(mContext, StudyConstants.TYPE_DURATION, mStartDay, mEndDay, new ResultListener() {
+                StudyManager.getReportTrend(mContext, StudyConstants.TYPE_DURATION, mStartDay, mEndDay, new ReportTrendListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Gson gson = GsonUtils.getGson();
-                        BeanReportTrend trend = gson.fromJson(beanResult.getData(), BeanReportTrend.class);
-                        Log.i(TAG, "totalValue:" + trend.getTotal());
-                        for (BeanReportTrendDay day : trend.getList()) {
-                            Log.i(TAG, "day:" + day.getDay() + ",value:" + day.getValue());
+                    public void onSuccess(BeanReportTrend beanResult) {
+                        for (BeanReportTrendDay day : beanResult.getList()) {
+                            Log.i(TAG, "BeanReportTrendDay:" + day.toString());
                         }
                         Toaster.show(R.string.request_success);
                     }
@@ -444,16 +419,13 @@ public class MainActivity extends StpBaseActivity {
                 }
                 break;
             case R.id.all_books:
-                BookManager.getAllBookList(mContext, mFrom, mSize, new ResultListener() {
+                BookManager.getAllBookList(mContext, mFrom, mSize, new BookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        BeanBookListResult result = gson.fromJson(beanResult.getData(), BeanBookListResult.class);
-                        if (result != null) {
-                            Log.i(TAG, "total:" + result.getTotal());
-                            for (BeanBookDetail detail : result.getList()) {
-                                Log.i(TAG, detail.toString());
+                    public void onSuccess(BeanBookListResult beanResult) {
+                        if (beanResult != null) {
+                            Log.i(TAG, "total:" + beanResult.getTotal());
+                            for (BeanBookDetail detail : beanResult.getList()) {
+                                Log.i(TAG, "BeanBookDetail:" + detail.toString());
                             }
                         }
                         Toaster.show(R.string.request_success);
@@ -467,19 +439,14 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.search_book:
-                BookManager.searchBook(mContext, "英语", new ResultListener() {
+                BookManager.searchBook(mContext, "英语", new BookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Toaster.show(R.string.request_success);
-                        Gson gson = GsonUtils.getGson();
-                        BeanBookListResult result = gson.fromJson(beanResult.getData(), BeanBookListResult.class);
-                        if (result != null) {
-                            Log.i(TAG, "total:" + result.getTotal());
-                            for (BeanBookDetail detail : result.getList()) {
-                                Log.i(TAG, detail.toString());
-                            }
+                    public void onSuccess(BeanBookListResult beanResult) {
+                        Log.i(TAG, "total:" + beanResult.getTotal());
+                        for (BeanBookDetail detail : beanResult.getList()) {
+                            Log.i(TAG, "BeanBookDetail:" + detail.toString());
                         }
+                        Toaster.show(R.string.request_success);
                     }
 
                     @Override
@@ -490,10 +457,13 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.device_books:
-                BookManager.getDeviceBookList(mContext, mFrom, mSize, new ResultListener() {
+                BookManager.getDeviceBookList(mContext, mFrom, mSize, new BookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
+                    public void onSuccess(BeanBookListResult beanResult) {
+                        Log.i(TAG, "total:" + beanResult.getTotal());
+                        for (BeanBookDetail detail : beanResult.getList()) {
+                            Log.i(TAG, "BeanBookDetail:" + detail.toString());
+                        }
                         Toaster.show(R.string.request_success);
                     }
 
@@ -505,14 +475,11 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.book_detail:
-                BookManager.getBookDetail(mContext, MID, new ResultListener() {
+                BookManager.getBookDetail(mContext, MID, new BookDetailListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
+                    public void onSuccess(BeanBookDetail beanResult) {
+                        Log.i(TAG, "deviceDetail:" + beanResult.toString());
                         Toaster.show(R.string.request_success);
-                        Gson gson = GsonUtils.getGson();
-                        BeanDeviceDetail deviceDetail = gson.fromJson(beanResult.getData(), BeanDeviceDetail.class);
-                        Log.i(TAG, "deviceDetail.name:" + deviceDetail.getName());
                     }
 
                     @Override
@@ -568,14 +535,12 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.storage:
-                BookManager.getDeviceStorage(mContext, new ResultListener() {
+                BookManager.getDeviceStorage(mContext, new StorageListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Gson gson = GsonUtils.getGson();
-                        BeanStorageStatus storageStatus = gson.fromJson(beanResult.getData(), BeanStorageStatus.class);
-                        Log.i(TAG, "storage status:" + storageStatus.toString());
-                        Toaster.show(storageStatus.toString());
+                    public void onSuccess(BeanStorageStatus beanResult) {
+
+                        Log.i(TAG, "storage status:" + beanResult.toString());
+                        Toaster.show(beanResult.toString());
                     }
 
                     @Override
@@ -586,19 +551,16 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.all_reading_package:
-                BookManager.getAllReadingPackage(mContext, mFrom, mSize, new ResultListener() {
+                BookManager.getAllReadingPackage(mContext, mFrom, mSize, new BookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Toaster.show(R.string.request_success);
-                        Gson gson = GsonUtils.getGson();
-                        BeanBookListResult result = gson.fromJson(beanResult.getData(), BeanBookListResult.class);
-                        if (result != null) {
-                            Log.i(TAG, "total:" + result.getTotal());
-                            for (BeanBookDetail detail : result.getList()) {
-                                Log.i(TAG, detail.toString());
+                    public void onSuccess(BeanBookListResult beanResult) {
+                        if (beanResult != null) {
+                            Log.i(TAG, "total:" + beanResult.getTotal());
+                            for (BeanBookDetail detail : beanResult.getList()) {
+                                Log.i(TAG, "BeanBookDetail:" + detail.toString());
                             }
                         }
+                        Toaster.show(R.string.request_success);
                     }
 
                     @Override
@@ -609,19 +571,16 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.device_reading_package:
-                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new ResultListener() {
+                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new BookListListener() {
                     @Override
-                    public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
-                        Toaster.show(R.string.request_success);
-                        Gson gson = GsonUtils.getGson();
-                        BeanBookListResult result = gson.fromJson(beanResult.getData(), BeanBookListResult.class);
-                        if (result != null) {
-                            Log.i(TAG, "total:" + result.getTotal());
-                            for (BeanBookDetail detail : result.getList()) {
-                                Log.i(TAG, detail.toString());
+                    public void onSuccess(BeanBookListResult beanResult) {
+                        if (beanResult != null) {
+                            Log.i(TAG, "total:" + beanResult.getTotal());
+                            for (BeanBookDetail detail : beanResult.getList()) {
+                                Log.i(TAG, "BeanBookDetail:" + detail.toString());
                             }
                         }
+                        Toaster.show(R.string.request_success);
                     }
 
                     @Override
