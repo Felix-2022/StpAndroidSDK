@@ -26,7 +26,7 @@ android {
         manifestPlaceholders = [
                 GETUI_APP_ID    : "自行前往个推开放平台申请",
                 GETUI_APP_KEY   : "自行前往个推开放平台申请",
-                GETUI_APP_SECRET:  "自行前往个推开放平台申请"
+                GETUI_APP_SECRET: "自行前往个推开放平台申请"
         ]
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86_64", "x86"
@@ -79,12 +79,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation(name: 'blufilibrary', ext: 'aar')
-    implementation(name: 'stpsdk-2.0.3', ext: 'aar')
+    implementation(name: 'stpsdk-2.0.4', ext: 'aar')
 //    implementation project(':stpsdk')
     api 'com.getui:sdk:2.14.0.0'
 

@@ -56,3 +56,4 @@ utilities/
 prebuilt/
 /lint/stpsdk-lint-report.html
 /app/debug/
+settings.gradle

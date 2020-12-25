@@ -139,6 +139,7 @@ public class SearchDeviceActivity extends StpBaseActivity implements SearchDevic
     @Override
     public void gotoSetWifiInfoActivity(BluetoothDevice device) {
         SetWifiInfoActivity.launch(this, device);
+        finish();
     }
 
     @OnClick({R.id.btn_action, R.id.iv_back})

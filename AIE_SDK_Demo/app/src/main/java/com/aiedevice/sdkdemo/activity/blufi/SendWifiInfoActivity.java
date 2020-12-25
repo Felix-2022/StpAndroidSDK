@@ -94,17 +94,10 @@ public class SendWifiInfoActivity extends StpBaseActivity implements SendWifiInf
         }, 2000);
     }
 
-    @OnClick(R.id.btn_retry)
+    @OnClick({R.id.btn_retry, R.id.iv_back})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_retry:
-                btnRetry.setVisibility(View.GONE);
-                tvState.setText("网络连接中…");
-                ivStatus.setImageResource(R.drawable.config_net_connecting);
-
-                attachPresenter();
-                presenter.startConfigure(mDevice, mParams);
-                break;
             case R.id.iv_back:
                 finish();
                 break;
