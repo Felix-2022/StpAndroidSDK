@@ -42,7 +42,15 @@
 
 ### 1. 由AIE分配唯一的PackageId
 ### 2. 接入stpsdk-版本号.aar
-### 3. 初始化SDK
+### 3. 依赖sdk需要的库
+```
+implementation 'io.reactivex:rxandroid:1.1.0'
+implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+implementation(name: 'blufilibrary', ext: 'aar')//蓝牙配网依赖库，文件位于Demo的libs目录
+
+```
+### 4. 初始化SDK
   ```
   /**
    * StpSDK初始化
@@ -53,7 +61,7 @@
    */
    StpSDK.getInstance().init(this, PACKAGE_ID, SDKConfig.ENV_ONLINE);
   ```
-### 4. 登录:AIE账号或第三方鉴权登录二选一
+### 5. 登录:AIE账号或第三方鉴权登录二选一
 > 注意：使用第三方鉴权登录前，需要双方服务器端研发先联调完服务器间鉴权接口
 ```
  
@@ -64,7 +72,7 @@ AccountManager.login(context, 手机号, 密码, 回调)
 AccountManager.login(context, 客户用户唯一标识, 客户用户鉴权码, 回调) {
 ```
 
-### 5. 设置要操作设备信息
+### 6. 设置要操作设备信息
 ```
 AccountManager.setDeviceInfo(设备ID,设备APPId);
 ```
