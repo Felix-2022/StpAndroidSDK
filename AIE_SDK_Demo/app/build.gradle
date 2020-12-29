@@ -83,7 +83,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation(name: 'blufilibrary', ext: 'aar')
-    implementation(name: 'stpsdk-2.0.4', ext: 'aar')
+    implementation(name: 'stpsdk-2.0.5', ext: 'aar')
 //    implementation project(':stpsdk')
     api 'com.getui:sdk:2.14.0.0'
 

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.aiedevice.sdk.account.AccountManager;
+import com.aiedevice.sdk.account.UserManager;
 import com.aiedevice.sdk.device.DeviceDetailListener;
 import com.aiedevice.sdk.device.DeviceHardwareAttrListener;
 import com.aiedevice.sdk.device.DeviceManager;
@@ -81,7 +81,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mLastSelectView.setSelected(false);
                 mLastSelectView = view.findViewById(R.id.root_layout);
                 mLastSelectView.setSelected(true);
-                AccountManager.setDeviceInfo(detail.getId(), detail.getAppId());
+                UserManager.setDeviceInfo(detail.getId(), detail.getAppId());
                 if (mDevSelectListener != null) {
                     mDevSelectListener.onDeviceSelected(detail);
                 }

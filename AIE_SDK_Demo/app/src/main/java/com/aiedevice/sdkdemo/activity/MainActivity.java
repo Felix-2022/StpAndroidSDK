@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aiedevice.sdk.account.AccountManager;
+import com.aiedevice.sdk.account.UserManager;
 import com.aiedevice.sdk.account.LoginListener;
 import com.aiedevice.sdk.account.bean.BeanLoginData;
 import com.aiedevice.sdk.base.bean.BeanResult;
@@ -118,7 +118,7 @@ public class MainActivity extends StpBaseActivity {
                     mDeviceDetail = deviceDetail;
                     deviceName.setText(mDeviceDetail.getName());
                     sn.setText(mDeviceDetail.getId());
-                    AccountManager.setDeviceInfo(deviceDetail.getId(), deviceDetail.getAppId());
+                    UserManager.setDeviceInfo(deviceDetail.getId(), deviceDetail.getAppId());
                 }
             }
         };
@@ -134,7 +134,7 @@ public class MainActivity extends StpBaseActivity {
         /**
          * AIE账号登录
          */
-        AccountManager.login(mContext, DEMO_PHONE, DEMO_PWD, new LoginListener() {
+        UserManager.login(mContext, DEMO_PHONE, DEMO_PWD, new LoginListener() {
             @Override
             public void onSuccess(BeanLoginData loginData) {
                 try {
@@ -146,7 +146,7 @@ public class MainActivity extends StpBaseActivity {
                          */
                         mDeviceDetail = loginData.getDevices().get(0);
                         Log.i(TAG, "onSuccess set mDeviceDetail");
-                        AccountManager.setDeviceInfo(mDeviceDetail.getId(), mDeviceDetail.getAppId());
+                        UserManager.setDeviceInfo(mDeviceDetail.getId(), mDeviceDetail.getAppId());
 
                         deviceName.setText(mDeviceDetail.getName());
                         sn.setText(mDeviceDetail.getId());
@@ -681,7 +681,7 @@ public class MainActivity extends StpBaseActivity {
 
 
     private void logout() {
-        AccountManager.logout(mContext, new ResultListener() {
+        UserManager.logout(mContext, new ResultListener() {
             @Override
             public void onSuccess(BeanResult result) {
                 Log.i(TAG, "[logout-succ] result=" + result.getResult());
