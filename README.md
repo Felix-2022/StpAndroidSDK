@@ -66,15 +66,15 @@ implementation(name: 'blufilibrary', ext: 'aar')//蓝牙配网依赖库，文件
 ```
  
 AIE账号登录
-AccountManager.login(context, 手机号, 密码, 回调)
+AuthManager.login(context, 手机号, 密码, 回调)
   
 第三方登录接口
-AccountManager.login(context, 客户用户唯一标识, 客户用户鉴权码, 回调) {
+AuthManager.login(context, 客户用户唯一标识, 客户用户鉴权码, 回调) {
 ```
 
 ### 6. 设置要操作设备信息
 ```
-AccountManager.setDeviceInfo(设备ID,设备APPId);
+AuthManager.setDeviceInfo(设备ID,设备APPId);
 ```
 
 ## 点读笔配网集成
@@ -92,7 +92,7 @@ AccountManager.setDeviceInfo(设备ID,设备APPId);
 ### 5. 请求AIE接口绑定个推clientId
 ```
 注册方式有2种，
-1. 未登录时已经获得个推clientId，在第三方登录接口时注册：AccountManager.loginEx
+1. 未登录时已经获得个推clientId，在第三方登录接口时注册：AuthManager.loginEx
 /**
  * 第三方登录接口
  *
@@ -140,7 +140,7 @@ public static boolean sendSyncHeartbeat(Context context, ResultListener listener
  
 ## 各模块接口说明
 
-### 账号管理AccountManager
+### 账号管理AuthManager
 ```
 /**
 * AIE账号登录
@@ -197,7 +197,7 @@ public static String getDeviceId() {
 return SharedPreferencesUtil.getDeviceId();
 }
 ```
-#### 账号管理AccountManager常用对象
+#### 账号管理AuthManager常用对象
 ```
 /**
 * 登录返回常用信息
