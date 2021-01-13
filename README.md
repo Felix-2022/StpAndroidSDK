@@ -208,6 +208,7 @@ public class BeanLoginData {
 ```
 
 ### 设备管理DeviceManager
+```
  
 /**
 * 获取设备列表
