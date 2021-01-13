@@ -11,8 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aiedevice.sdk.account.AuthManager;
-import com.aiedevice.sdk.device.DeviceDetailListener;
-import com.aiedevice.sdk.device.DeviceHardwareAttrListener;
+import com.aiedevice.sdk.base.net.CommonResultListener;
 import com.aiedevice.sdk.device.DeviceManager;
 import com.aiedevice.sdk.device.bean.BeanDeviceDetail;
 import com.aiedevice.sdk.device.bean.BeanDeviceHardwareAttr;
@@ -90,16 +89,16 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.btn_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeviceManager.getDeviceDetail(mContext, new DeviceDetailListener() {
+                DeviceManager.getDeviceDetail(mContext, new CommonResultListener<BeanDeviceDetail>() {
                     @Override
-                    public void onSuccess(BeanDeviceDetail beanResult) {
+                    public void onResultSuccess(BeanDeviceDetail beanResult) {
                         Log.i(TAG, "deviceDetail:" + beanResult.toString());
                         Toaster.show(beanResult.toString());
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.e(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.e(TAG, "onError errCode:" + errorCode + ",errMsg:" + desc);
                     }
                 });
             }
@@ -108,9 +107,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.btn_hardware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeviceManager.getDeviceHardwareInfo(mContext, new DeviceHardwareAttrListener() {
+                DeviceManager.getDeviceHardwareInfo(mContext, new CommonResultListener<BeanDeviceHardwareList>() {
                     @Override
-                    public void onSuccess(BeanDeviceHardwareList beanResult) {
+                    public void onResultSuccess(BeanDeviceHardwareList beanResult) {
                         for (BeanDeviceHardwareAttr attr : beanResult.getList()) {
                             Log.i(TAG, "BeanDeviceHardwareAttr:" + attr.toString());
                         }
@@ -118,8 +117,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.e(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.e(TAG, "onError errCode:" + errorCode + ",desc:" + desc);
+
                     }
                 });
             }

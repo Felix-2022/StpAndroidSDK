@@ -1,12 +1,12 @@
 package com.aiedevice.sdkdemo;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.aiedevice.sdk.StpSDK;
 import com.aiedevice.sdk.base.SDKConfig;
 import com.igexin.sdk.PushManager;
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     /**
      * 正式接入时需要替换AIE分配的packageId
      */

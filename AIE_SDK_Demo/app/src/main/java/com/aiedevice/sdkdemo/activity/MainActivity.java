@@ -16,25 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aiedevice.sdk.account.AuthManager;
-import com.aiedevice.sdk.account.LoginListener;
 import com.aiedevice.sdk.account.bean.BeanLoginData;
 import com.aiedevice.sdk.base.bean.BeanResult;
+import com.aiedevice.sdk.base.net.CommonResultListener;
 import com.aiedevice.sdk.base.net.ResultListener;
-import com.aiedevice.sdk.book.BookDetailListener;
-import com.aiedevice.sdk.book.BookListListener;
 import com.aiedevice.sdk.book.BookManager;
-import com.aiedevice.sdk.book.StorageListener;
 import com.aiedevice.sdk.book.bean.BeanBookDetail;
 import com.aiedevice.sdk.book.bean.BeanBookListResult;
 import com.aiedevice.sdk.book.bean.BeanStorageStatus;
 import com.aiedevice.sdk.classroom.ClassRoomManager;
-import com.aiedevice.sdk.device.DeviceListListener;
 import com.aiedevice.sdk.device.DeviceManager;
 import com.aiedevice.sdk.device.bean.BeanDeviceDetail;
 import com.aiedevice.sdk.device.bean.BeanDeviceList;
-import com.aiedevice.sdk.study.ReportBookListListener;
-import com.aiedevice.sdk.study.ReportListListener;
-import com.aiedevice.sdk.study.ReportTrendListener;
 import com.aiedevice.sdk.study.StudyConstants;
 import com.aiedevice.sdk.study.StudyManager;
 import com.aiedevice.sdk.study.bean.BeanReportBookList;
@@ -131,20 +124,17 @@ public class MainActivity extends StpBaseActivity {
 
     private void login() {
 
-        /**
-         * AIE账号登录
-         */
-        AuthManager.login(mContext, DEMO_PHONE, DEMO_PWD, new LoginListener() {
+        AuthManager.login(mContext, DEMO_PHONE, DEMO_PWD, new CommonResultListener<BeanLoginData>() {
             @Override
-            public void onSuccess(BeanLoginData loginData) {
+            public void onResultSuccess(BeanLoginData beanResult) {
                 try {
-                    if (loginData.getDevices() != null && loginData.getDevices().size() > 0) {
+                    if (beanResult.getDevices() != null && beanResult.getDevices().size() > 0) {
                         /**
                          * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
                          * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
                          * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
                          */
-                        mDeviceDetail = loginData.getDevices().get(0);
+                        mDeviceDetail = beanResult.getDevices().get(0);
                         Log.i(TAG, "onSuccess set mDeviceDetail");
                         AuthManager.setDeviceInfo(mDeviceDetail.getId(), mDeviceDetail.getAppId());
 
@@ -163,11 +153,12 @@ public class MainActivity extends StpBaseActivity {
             }
 
             @Override
-            public void onError(int code, String message) {
-                Log.i(TAG, "code = " + code + "；message = " + message);
+            public void onResultFailed(int errorCode, String desc) {
+                Log.i(TAG, "errorCode = " + errorCode + "；desc = " + desc);
                 Toaster.show(getString(R.string.login_activity_login_failed));
             }
         });
+
 
 //        /**
 //         * 第三方账号登录
@@ -210,19 +201,20 @@ public class MainActivity extends StpBaseActivity {
     }
 
     private void getDeviceList() {
-        DeviceManager.getDeviceList(mContext, new DeviceListListener() {
+        DeviceManager.getDeviceList(mContext, new CommonResultListener<BeanDeviceList>() {
             @Override
-            public void onSuccess(BeanDeviceList beanResult) {
+            public void onResultSuccess(BeanDeviceList beanResult) {
                 mDeviceListAdapter.setItems(beanResult.getDeviceList());
                 Toaster.show("获取设备列表成功");
             }
 
             @Override
-            public void onError(int errCode, String errMsg) {
-                Log.i(TAG, "code = " + errCode + "；message = " + errMsg);
-                Toaster.show("获取设备列表失败 错误:" + errMsg);
+            public void onResultFailed(int errorCode, String desc) {
+                Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
             }
         });
+
     }
 
     @OnClick({R.id.btn_device, R.id.btn_study, R.id.update_device_name, R.id.volume_add, R.id.volume_reduce, R.id.btn_book, R.id.btn_logout, R.id.btn_classroom, R.id.bind_pen, R.id.classroom_switcher, R.id.classroom_heart_beat, R.id.bind_push_id, R.id.read_book_page, R.id.read_book_range, R.id.report_range, R.id.report_page, R.id.report_trend, R.id.unbind, R.id.all_books, R.id.search_book, R.id.device_books, R.id.book_detail, R.id.download_book, R.id.delete_book, R.id.delete_books, R.id.storage, R.id.all_reading_package, R.id.device_reading_package})
@@ -324,9 +316,9 @@ public class MainActivity extends StpBaseActivity {
                 }
                 break;
             case R.id.read_book_page:
-                StudyManager.getPicBookList(mContext, mFrom, mSize, new ReportBookListListener() {
+                StudyManager.getPicBookList(mContext, mFrom, mSize, new CommonResultListener<List<BeanReportBookList>>() {
                     @Override
-                    public void onSuccess(List<BeanReportBookList> beanResult) {
+                    public void onResultSuccess(List<BeanReportBookList> beanResult) {
                         for (BeanReportBookList bookListResult : beanResult) {
                             Log.i(TAG, "BeanReportBookList:" + bookListResult.toString());
                         }
@@ -334,17 +326,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
-
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.read_book_range:
-                StudyManager.getPicBookList(mContext, mStartDay, mEndDay, new ReportBookListListener() {
+                StudyManager.getPicBookList(mContext, mStartDay, mEndDay, new CommonResultListener<List<BeanReportBookList>>() {
                     @Override
-                    public void onSuccess(List<BeanReportBookList> beanResult) {
+                    public void onResultSuccess(List<BeanReportBookList> beanResult) {
                         for (BeanReportBookList bookListResult : beanResult) {
                             Log.i(TAG, "bookListResult:" + bookListResult.toString());
                         }
@@ -352,16 +344,16 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
                 break;
             case R.id.report_page:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mFrom, mSize, new ReportListListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mFrom, mSize, new CommonResultListener<List<BeanReportList>>() {
                     @Override
-                    public void onSuccess(List<BeanReportList> beanResult) {
+                    public void onResultSuccess(List<BeanReportList> beanResult) {
                         for (BeanReportList bookListResult : beanResult) {
                             Log.i(TAG, "BeanReportList:" + bookListResult.toString());
                         }
@@ -369,17 +361,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
-
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.report_range:
-                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mStartDay, mEndDay, new ReportListListener() {
+                StudyManager.getReportList(mContext, StudyConstants.TYPE_FOLLOW_READING, 1, mStartDay, mEndDay, new CommonResultListener<List<BeanReportList>>() {
                     @Override
-                    public void onSuccess(List<BeanReportList> beanResult) {
+                    public void onResultSuccess(List<BeanReportList> beanResult) {
                         for (BeanReportList bookListResult : beanResult) {
                             Log.i(TAG, "BeanReportList:" + bookListResult.toString());
                         }
@@ -387,16 +379,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.report_trend:
-                StudyManager.getReportTrend(mContext, StudyConstants.TYPE_DURATION, mStartDay, mEndDay, new ReportTrendListener() {
+                StudyManager.getReportTrend(mContext, StudyConstants.TYPE_DURATION, mStartDay, mEndDay, new CommonResultListener<BeanReportTrend>() {
                     @Override
-                    public void onSuccess(BeanReportTrend beanResult) {
+                    public void onResultSuccess(BeanReportTrend beanResult) {
                         for (BeanReportTrendDay day : beanResult.getList()) {
                             Log.i(TAG, "BeanReportTrendDay:" + day.toString());
                         }
@@ -404,11 +397,12 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
 
             case R.id.btn_book:
@@ -419,9 +413,9 @@ public class MainActivity extends StpBaseActivity {
                 }
                 break;
             case R.id.all_books:
-                BookManager.getAllBookList(mContext, mFrom, mSize, new BookListListener() {
+                BookManager.getAllBookList(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
                     @Override
-                    public void onSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanBookListResult beanResult) {
                         if (beanResult != null) {
                             Log.i(TAG, "total:" + beanResult.getTotal());
                             for (BeanBookDetail detail : beanResult.getList()) {
@@ -432,16 +426,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.search_book:
-                BookManager.searchBook(mContext, "英语", new BookListListener() {
+                BookManager.searchBook(mContext, "英语", new CommonResultListener<BeanBookListResult>() {
                     @Override
-                    public void onSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanBookListResult beanResult) {
                         Log.i(TAG, "total:" + beanResult.getTotal());
                         for (BeanBookDetail detail : beanResult.getList()) {
                             Log.i(TAG, "BeanBookDetail:" + detail.toString());
@@ -450,16 +445,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.device_books:
-                BookManager.getDeviceBookList(mContext, mFrom, mSize, new BookListListener() {
+                BookManager.getDeviceBookList(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
                     @Override
-                    public void onSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanBookListResult beanResult) {
                         Log.i(TAG, "total:" + beanResult.getTotal());
                         for (BeanBookDetail detail : beanResult.getList()) {
                             Log.i(TAG, "BeanBookDetail:" + detail.toString());
@@ -468,26 +464,28 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.book_detail:
-                BookManager.getBookDetail(mContext, MID, new BookDetailListener() {
+                BookManager.getBookDetail(mContext, MID, new CommonResultListener<BeanBookDetail>() {
                     @Override
-                    public void onSuccess(BeanBookDetail beanResult) {
+                    public void onResultSuccess(BeanBookDetail beanResult) {
                         Log.i(TAG, "deviceDetail:" + beanResult.toString());
                         Toaster.show(R.string.request_success);
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.download_book:
                 BookManager.downloadBook(mContext, MID, new ResultListener() {
@@ -508,7 +506,7 @@ public class MainActivity extends StpBaseActivity {
                 BookManager.deleteBook(mContext, MID, new ResultListener() {
                     @Override
                     public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
+                        Log.i(TAG, "onSuccess ");
                         Toaster.show(R.string.request_success);
                     }
 
@@ -523,7 +521,7 @@ public class MainActivity extends StpBaseActivity {
                 BookManager.deleteBookList(mContext, Arrays.asList(MID), new ResultListener() {
                     @Override
                     public void onSuccess(BeanResult beanResult) {
-                        Log.i(TAG, "onSuccess data:" + beanResult.getData());
+                        Log.i(TAG, "onSuccess data");
                         Toaster.show(R.string.request_success);
                     }
 
@@ -535,25 +533,25 @@ public class MainActivity extends StpBaseActivity {
                 });
                 break;
             case R.id.storage:
-                BookManager.getDeviceStorage(mContext, new StorageListener() {
+                BookManager.getDeviceStorage(mContext, new CommonResultListener<BeanStorageStatus>() {
                     @Override
-                    public void onSuccess(BeanStorageStatus beanResult) {
-
+                    public void onResultSuccess(BeanStorageStatus beanResult) {
                         Log.i(TAG, "storage status:" + beanResult.toString());
                         Toaster.show(beanResult.toString());
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.all_reading_package:
-                BookManager.getAllReadingPackage(mContext, mFrom, mSize, new BookListListener() {
+                BookManager.getAllReadingPackage(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
                     @Override
-                    public void onSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanBookListResult beanResult) {
                         if (beanResult != null) {
                             Log.i(TAG, "total:" + beanResult.getTotal());
                             for (BeanBookDetail detail : beanResult.getList()) {
@@ -564,16 +562,17 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.device_reading_package:
-                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new BookListListener() {
+                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
                     @Override
-                    public void onSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanBookListResult beanResult) {
                         if (beanResult != null) {
                             Log.i(TAG, "total:" + beanResult.getTotal());
                             for (BeanBookDetail detail : beanResult.getList()) {
@@ -584,11 +583,12 @@ public class MainActivity extends StpBaseActivity {
                     }
 
                     @Override
-                    public void onError(int errCode, String errMsg) {
-                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
-                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    public void onResultFailed(int errorCode, String desc) {
+                        Log.i(TAG, "onResultFailed errCode:" + errorCode + ",desc:" + desc);
+                        Toaster.show(String.format(getString(R.string.request_fail), errorCode, desc));
                     }
                 });
+
                 break;
             case R.id.btn_classroom:
                 if (classroomLayout.getVisibility() == View.VISIBLE) {
