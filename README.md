@@ -48,6 +48,7 @@ implementation 'io.reactivex:rxandroid:1.1.0'
 implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 implementation(name: 'blufilibrary', ext: 'aar')//蓝牙配网依赖库，文件位于Demo的libs目录
+implementation(name: 'stpsdk-最新版本号', ext: 'aar')
 
 ```
 ### 4. 初始化SDK
