@@ -299,7 +299,7 @@ public class BeanDeviceDetail  {
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getPicBookList(Context context, int from, int size, CommonResultListener<List<BeanReportBookList\>> listener)
+public static void getPicBookList(Context context, int from, int size, CommonResultListener<List<BeanReportBookList>> listener)
 
 
 /**
@@ -309,7 +309,7 @@ public static void getPicBookList(Context context, int from, int size, CommonRes
 * @param endDate   截止时间，格式"yyyy-MM-dd"
 * @param listener
 */
-public static void getPicBookList(Context context, String startDate, String endDate, CommonResultListener<List<BeanReportBookList\>> listener)
+public static void getPicBookList(Context context, String startDate, String endDate, CommonResultListener<List<BeanReportBookList>> listener)
 
 /**
 * 学习报告(按数量查询)
@@ -320,7 +320,7 @@ public static void getPicBookList(Context context, String startDate, String endD
 * @param size       返回多少条数据
 * @param listener
 */
-public static void getReportList(Context context, String type, int withDetail, int from, int size, CommonResultListener<List<BeanReportList\>> listener)
+public static void getReportList(Context context, String type, int withDetail, int from, int size, CommonResultListener<List<BeanReportList>> listener)
 
 
 /**
@@ -333,7 +333,7 @@ public static void getReportList(Context context, String type, int withDetail, i
 * @param listener
 */
 
-public static void getReportList(Context context, String type, int withDetail, String startDate, String endDate, CommonResultListener<List<BeanReportList\>> listener)
+public static void getReportList(Context context, String type, int withDetail, String startDate, String endDate, CommonResultListener<List<BeanReportList>> listener)
 
 /**
 * 报告趋势(按时间查询)
