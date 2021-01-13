@@ -69,7 +69,7 @@ AIE账号登录
 AuthManager.login(context, 手机号, 密码, 回调)
   
 第三方登录接口
-AuthManager.login(context, 客户用户唯一标识, 客户用户鉴权码, 回调) {
+AuthManager.loginEx(context, 客户用户唯一标识, 客户用户鉴权码, 回调) {
 ```
 
 ### 6. 设置要操作设备信息
@@ -101,7 +101,7 @@ AuthManager.setDeviceInfo(设备ID,设备APPId);
  * @param pushId    个推(第三方长连接服务商)生成的ClientId,(*非必须，接入同步课堂相关功能需要*)
  * @param listener
  */
-public static void loginEx(Context context, String userId, String thirdCode, String pushId, ResultListener listener) {
+public static void loginEx(Context context, String userId, String thirdCode, String pushId, CommonResultListener<BeanLoginData> listener) {
 
 2.独立设置个推clientId：ClassRoomManager.setPushId
 /**
@@ -130,9 +130,8 @@ public static void syncSwitch(Context context, boolean isOpen, ResultListener li
 *
 * @param context
 * @param listener
-* @return
 */
-public static boolean sendSyncHeartbeat(Context context, ResultListener listener)
+public static void sendSyncHeartbeat(Context context, ResultListener listener)
 ```
 ### 8. 点读笔进入点读模式，点击有视频讲解的绘本
 
@@ -150,7 +149,7 @@ public static boolean sendSyncHeartbeat(Context context, ResultListener listener
 * @param password   密码
 * @param listener
 */
-public static void login(Context context, String phone, String password, ResultListener listener) 
+public static void login(Context context, String phone, String password, CommonResultListener<BeanLoginData> listener) 
 
 
 /**
@@ -160,7 +159,7 @@ public static void login(Context context, String phone, String password, ResultL
 * @param thirdCode 客户用户鉴权码
 * @param listener
 */
-public static void loginEx(Context context, String userId, String thirdCode, ResultListener listener)
+public static void loginEx(Context context, String userId, String thirdCode, CommonResultListener<BeanLoginData> listener)
 
 /**
 * 第三方登录接口
@@ -170,7 +169,7 @@ public static void loginEx(Context context, String userId, String thirdCode, Res
 * @param pushId    个推(第三方长连接服务商)生成的ClientId,(*非必须，接入同步课堂相关功能需要*)
 * @param listener
 */
-public static void loginEx(Context context, String userId, String thirdCode, String pushId, ResultListener listener)
+public static void loginEx(Context context, String userId, String thirdCode, CommonResultListener<BeanLoginData> listener)
 
 
 /**
@@ -193,9 +192,8 @@ public static void setDeviceInfo(String deviceID, String appID)
 * 获取当前操作的设备ID
 * @return
 */
-public static String getDeviceId() {
-return SharedPreferencesUtil.getDeviceId();
-}
+public static String getDeviceId()  
+
 ```
 #### 账号管理AuthManager常用对象
 ```
@@ -208,28 +206,21 @@ public class BeanLoginData {
 
 ```
 
-  ### 设备管理DeviceManager
-```
-/**
-* 获取设备绑定信息
-*
-* @param listener
-*/
-public static void getDeviceBindInfo(Context context, ResultListener listener) 
-
+### 设备管理DeviceManager
+ 
 /**
 * 获取设备列表
 *
 * @param listener
 */
-public static void getDeviceList(Context context, ResultListener listener) 
+public static void getDeviceList(Context context, CommonResultListener<BeanDeviceList> listener)
 
 /**
 * 获取设备详情
 * @param context
 * @param listener
 */
-public static void getDeviceDetail(Context context, ResultListener listener) 
+public static void getDeviceDetail(Context context, CommonResultListener<BeanDeviceDetail> listener) 
 
 
 /**
@@ -237,7 +228,7 @@ public static void getDeviceDetail(Context context, ResultListener listener)
 * @param context
 * @param listener
 */
-public static void getDeviceHardwareInfo(Context context, ResultListener listener) 
+public static void getDeviceHardwareInfo(Context context, CommonResultListener<BeanDeviceHardwareList> listener)
 
 /**
 * 修改设备音量
@@ -306,7 +297,7 @@ public class BeanDeviceDetail  {
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getPicBookList(Context context, int from, int size, ResultListener listener)
+public static void getPicBookList(Context context, int from, int size, CommonResultListener<List<BeanReportBookList>> listener)
 
 
 /**
@@ -316,7 +307,7 @@ public static void getPicBookList(Context context, int from, int size, ResultLis
 * @param endDate   截止时间，格式"yyyy-MM-dd"
 * @param listener
 */
-public static void getPicBookList(Context context, String startDate, String endDate, ResultListener listener)
+public static void getPicBookList(Context context, String startDate, String endDate, CommonResultListener<List<BeanReportBookList>> listener)
 
 /**
 * 学习报告(按数量查询)
@@ -327,7 +318,7 @@ public static void getPicBookList(Context context, String startDate, String endD
 * @param size       返回多少条数据
 * @param listener
 */
-public static void getReportList(Context context, String type, int withDetail, int from, int size, ResultListener listener)
+public static void getReportList(Context context, String type, int withDetail, int from, int size, CommonResultListener<List<BeanReportList>> listener)
 
 
 /**
@@ -340,7 +331,7 @@ public static void getReportList(Context context, String type, int withDetail, i
 * @param listener
 */
 
-public static void getReportList(Context context, String type, int withDetail, String startDate, String endDate, ResultListener listener)
+public static void getReportList(Context context, String type, int withDetail, String startDate, String endDate, CommonResultListener<List<BeanReportList>> listener)
 
 /**
 * 报告趋势(按时间查询)
@@ -351,7 +342,7 @@ public static void getReportList(Context context, String type, int withDetail, S
 * @param endDate   截止时间，格式"yyyy-MM-dd"
 * @param listener
 */
-public static void getReportTrend(Context context, String type, String startDate, String endDate, ResultListener listener)
+public static void getReportTrend(Context context, String type, String startDate, String endDate, CommonResultListener<BeanReportTrend> listener)
 
     
 ```
@@ -434,7 +425,7 @@ public class BeanReportTrendDay  {
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getAllBookList(Context context, int from, int size, ResultListener listener) 
+public static void getAllBookList(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener) 
 
 /**
 * 按关键字搜索绘本
@@ -443,7 +434,7 @@ public static void getAllBookList(Context context, int from, int size, ResultLis
 * @param keyword
 * @param listener
 */
-public static void searchBook(Context context, String keyword, ResultListener listener)
+public static void searchBook(Context context, String keyword, CommonResultListener<BeanBookListResult> listener)
 
 /**
 * 获取设备已添加绘本列表
@@ -453,7 +444,7 @@ public static void searchBook(Context context, String keyword, ResultListener li
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getDeviceBookList(Context context, int from, int size, ResultListener listener) 
+public static void getDeviceBookList(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener) 
 
 /**
 * 获取绘本详情
@@ -462,7 +453,7 @@ public static void getDeviceBookList(Context context, int from, int size, Result
 * @param mid      书ID
 * @param listener
 */
-public static void getBookDetail(Context context, String mid, ResultListener listener) 
+public static void getBookDetail(Context context, String mid, CommonResultListener<BeanBookDetail> listener) 
 
 /**
 * 添加绘本下载
@@ -498,7 +489,7 @@ public static void deleteBookList(Context context, List<String> bookIdList, Resu
 * @param context
 * @param listener
 */
-public static void getDeviceStorage(Context context, ResultListener listener)
+public static void getDeviceStorage(Context context,  CommonResultListener<BeanStorageStatus> listener)
 
 /**
 * 获取全部点读包列表
@@ -518,7 +509,7 @@ public static void getAllReadingPackage(Context context, int from, int size, Res
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getDeviceReadingPackage(Context context, int from, int size, ResultListener listener)
+public static void getDeviceReadingPackage(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener)
 
 ```
 
