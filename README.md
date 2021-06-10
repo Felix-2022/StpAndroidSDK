@@ -26,9 +26,9 @@
   1. 全部绘本
   2. 搜索绘本
   3. 设备已添加绘本
-  4. 绘本详情
+  4. 绘本或点读包详情
   5. 下载绘本或点读包
-  6. 删除绘本(单本、批量)
+  6. 删除绘本或点读包(单本、批量)
   7. 获取设备存储空间状态
   8. 全部点读包
   9. 已下载点读包
@@ -449,7 +449,7 @@ public static void searchBook(Context context, String keyword, CommonResultListe
 public static void getDeviceBookList(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener) 
 
 /**
-* 获取绘本详情
+* 获取绘本或点读包详情
 *
 * @param context
 * @param mid      书ID
@@ -458,7 +458,7 @@ public static void getDeviceBookList(Context context, int from, int size, Common
 public static void getBookDetail(Context context, String mid, CommonResultListener<BeanBookDetail> listener) 
 
 /**
-* 添加绘本下载
+* 下载绘本或点读包
 *
 * @param context
 * @param mid      书ID
@@ -467,7 +467,7 @@ public static void getBookDetail(Context context, String mid, CommonResultListen
 public static void downloadBook(Context context, String mid, ResultListener listener)
 
 /**
-* 删除设备已下载绘本
+* 删除设备已下载绘本或点读包
 *
 * @param context
 * @param mid      书ID
@@ -476,7 +476,7 @@ public static void downloadBook(Context context, String mid, ResultListener list
 public static void deleteBook(Context context, String mid, ResultListener listener) 
 
 /**
-* 批量删除设备已下载绘本
+* 批量删除设备已下载绘本或点读包
 *
 * @param context
 * @param bookIdList 书ID集合(一次最多10个id)
