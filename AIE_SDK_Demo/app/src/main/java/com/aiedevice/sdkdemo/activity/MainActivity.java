@@ -82,7 +82,7 @@ public class MainActivity extends StpBaseActivity {
     private static final int mSize = 10;
     private static final String mStartDay = "2020-12-17";
     private static final String mEndDay = "2020-12-18";
-    private static final String MID = "YWlyZXM6MjU3NzIyMA";//图书id
+    private static final String MID = "YWlyZXM6MjU3ODAxMQ";//图书id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +126,7 @@ public class MainActivity extends StpBaseActivity {
 
         AuthManager.login(mContext, DEMO_PHONE, DEMO_PWD, new CommonResultListener<BeanLoginData>() {
             @Override
-            public void onResultSuccess(BeanLoginData beanResult) {
+                public void onResultSuccess(BeanLoginData beanResult) {
                 try {
                     if (beanResult.getDevices() != null && beanResult.getDevices().size() > 0) {
                         /**
@@ -230,7 +230,6 @@ public class MainActivity extends StpBaseActivity {
                     deviceLayout.setVisibility(View.VISIBLE);
                 }
                 break;
-
             case R.id.update_device_name:
                 DeviceManager.updateDeviceName(mContext, deviceName.getText().toString(), new ResultListener() {
                     @Override

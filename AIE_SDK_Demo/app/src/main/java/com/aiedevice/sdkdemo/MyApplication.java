@@ -1,5 +1,7 @@
 package com.aiedevice.sdkdemo;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.aiedevice.sdk.StpSDK;
@@ -19,7 +21,8 @@ public class MyApplication extends MultiDexApplication {
         /**
          * 初始化StpSDK
          */
-        StpSDK.getInstance().init(this, PACKAGE_ID, SDKConfig.ENV_ONLINE);
+        StpSDK.getInstance().init(this, PACKAGE_ID, SDKConfig.ENV_TEST);
+
         /**2
          * 初始化个推服务
          */
@@ -27,5 +30,10 @@ public class MyApplication extends MultiDexApplication {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);  //这行代码一定要加
+        MultiDex.install(this);
+    }
 
 }

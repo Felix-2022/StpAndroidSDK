@@ -77,14 +77,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.6.2'
     implementation 'io.reactivex:rxjava:1.1.8'
     implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.6.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation(name: 'blufilibrary', ext: 'aar')
-    implementation(name: 'stpsdk-2.0.8', ext: 'aar')
+    implementation(name: 'stpsdk-2.0.10', ext: 'aar')
 //    implementation project(':stpsdk')
     api 'com.getui:sdk:2.14.0.0'
     compile 'com.android.support:multidex:1.0.1'
