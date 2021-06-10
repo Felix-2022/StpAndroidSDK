@@ -295,7 +295,7 @@ public class BeanDeviceDetail  {
 /**
 * 已读绘本列表(按数量查询)
 *
-* @param from     从第几条数据开始，0起始
+* @param from     最后一条的id，默认值0，表示获取首页
 * @param size     返回多少条数据
 * @param listener
 */
@@ -423,7 +423,7 @@ public class BeanReportTrendDay  {
 * 获取全部绘本列表
 *
 * @param context
-* @param from     从第几条数据开始，0起始
+* @param from     最后一条的id，默认值0，表示获取首页
 * @param size     返回多少条数据
 * @param listener
 */
@@ -442,7 +442,7 @@ public static void searchBook(Context context, String keyword, CommonResultListe
 * 获取设备已添加绘本列表
 *
 * @param context
-* @param from     从第几条数据开始，0起始
+* @param from     最后一条的id，默认值0，表示获取首页
 * @param size     返回多少条数据
 * @param listener
 */
@@ -497,7 +497,7 @@ public static void getDeviceStorage(Context context,  CommonResultListener<BeanS
 * 获取全部点读包列表
 *
 * @param context
-* @param from     从第几条数据开始，0起始
+* @param from     最后一条的id，默认值0，表示获取首页
 * @param size     返回多少条数据
 * @param listener
 */
@@ -507,7 +507,7 @@ public static void getAllReadingPackage(Context context, int from, int size, Res
 * 获取下载的点读包列表
 *
 * @param context
-* @param from     从第几条数据开始，0起始
+* @param from     最后一条的id，默认值0，表示获取首页
 * @param size     返回多少条数据
 * @param listener
 */
