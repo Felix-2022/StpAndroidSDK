@@ -535,7 +535,7 @@ public class BeanBookDetail {
     private String cover;
     private String mid;
     private long size; //点读包 大小 字节
-    private int status;//下载状态 0等待下载 1下载中 2下载完成 3下载失败
+    private int status; //添加状态 0未添加 1已添加
     private int downloadable; //是否可以下载 0否 1是
  }
 
