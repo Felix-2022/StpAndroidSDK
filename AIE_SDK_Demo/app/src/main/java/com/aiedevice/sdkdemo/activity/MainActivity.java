@@ -22,7 +22,10 @@ import com.aiedevice.sdk.base.net.CommonResultListener;
 import com.aiedevice.sdk.base.net.ResultListener;
 import com.aiedevice.sdk.book.BookManager;
 import com.aiedevice.sdk.book.bean.BeanBookDetail;
+import com.aiedevice.sdk.book.bean.BeanBookFullDetail;
 import com.aiedevice.sdk.book.bean.BeanBookListResult;
+import com.aiedevice.sdk.book.bean.BeanDeviceBookInfo;
+import com.aiedevice.sdk.book.bean.BeanDeviceBookListResult;
 import com.aiedevice.sdk.book.bean.BeanStorageStatus;
 import com.aiedevice.sdk.classroom.ClassRoomManager;
 import com.aiedevice.sdk.device.DeviceManager;
@@ -126,7 +129,7 @@ public class MainActivity extends StpBaseActivity {
 
         AuthManager.login(mContext, DEMO_PHONE, DEMO_PWD, new CommonResultListener<BeanLoginData>() {
             @Override
-                public void onResultSuccess(BeanLoginData beanResult) {
+            public void onResultSuccess(BeanLoginData beanResult) {
                 try {
                     if (beanResult.getDevices() != null && beanResult.getDevices().size() > 0) {
                         /**
@@ -452,11 +455,11 @@ public class MainActivity extends StpBaseActivity {
 
                 break;
             case R.id.device_books:
-                BookManager.getDeviceBookList(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
+                BookManager.getDeviceBookList(mContext, mFrom, mSize, new CommonResultListener<BeanDeviceBookListResult>() {
                     @Override
-                    public void onResultSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanDeviceBookListResult beanResult) {
                         Log.i(TAG, "total:" + beanResult.getTotal());
-                        for (BeanBookDetail detail : beanResult.getList()) {
+                        for (BeanDeviceBookInfo detail : beanResult.getList()) {
                             Log.i(TAG, "BeanBookDetail:" + detail.toString());
                         }
                         Toaster.show(R.string.request_success);
@@ -471,9 +474,9 @@ public class MainActivity extends StpBaseActivity {
 
                 break;
             case R.id.book_detail:
-                BookManager.getBookDetail(mContext, MID, new CommonResultListener<BeanBookDetail>() {
+                BookManager.getBookDetail(mContext, MID, new CommonResultListener<BeanBookFullDetail>() {
                     @Override
-                    public void onResultSuccess(BeanBookDetail beanResult) {
+                    public void onResultSuccess(BeanBookFullDetail beanResult) {
                         Log.i(TAG, "deviceDetail:" + beanResult.toString());
                         Toaster.show(R.string.request_success);
                     }
@@ -569,13 +572,13 @@ public class MainActivity extends StpBaseActivity {
 
                 break;
             case R.id.device_reading_package:
-                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new CommonResultListener<BeanBookListResult>() {
+                BookManager.getDeviceReadingPackage(mContext, mFrom, mSize, new CommonResultListener<BeanDeviceBookListResult>() {
                     @Override
-                    public void onResultSuccess(BeanBookListResult beanResult) {
+                    public void onResultSuccess(BeanDeviceBookListResult beanResult) {
                         if (beanResult != null) {
                             Log.i(TAG, "total:" + beanResult.getTotal());
-                            for (BeanBookDetail detail : beanResult.getList()) {
-                                Log.i(TAG, "BeanBookDetail:" + detail.toString());
+                            for (BeanDeviceBookInfo detail : beanResult.getList()) {
+                                Log.i(TAG, "BeanDeviceReadingInfo:" + detail.toString());
                             }
                         }
                         Toaster.show(R.string.request_success);
