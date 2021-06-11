@@ -540,6 +540,14 @@ public class BeanBookDetail {
  }
 
 /** 
+*  设备内的绘本/点读包列表
+*/
+ public class BeanDeviceBookListResult{
+    private List<BeanDeviceBookInfo> list;//绘本集合
+    private int total;//数据总数
+}
+
+/** 
 *  设备内的绘本/点读包详情
 */
  public class BeanDeviceBookInfo {
