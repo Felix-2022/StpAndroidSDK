@@ -446,7 +446,7 @@ public static void searchBook(Context context, String keyword, CommonResultListe
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getDeviceBookList(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener) 
+public static void getDeviceBookList(Context context, int from, int size, CommonResultListener<BeanDeviceBookListResult> listener) 
 
 /**
 * 获取绘本或点读包详情
@@ -455,7 +455,7 @@ public static void getDeviceBookList(Context context, int from, int size, Common
 * @param mid      书ID
 * @param listener
 */
-public static void getBookDetail(Context context, String mid, CommonResultListener<BeanBookDetail> listener) 
+public static void getBookDetail(Context context, String mid, CommonResultListener<BeanBookFullDetail> listener) 
 
 /**
 * 下载绘本或点读包
@@ -501,7 +501,7 @@ public static void getDeviceStorage(Context context,  CommonResultListener<BeanS
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getAllReadingPackage(Context context, int from, int size, ResultListener listener)
+public static void getAllReadingPackage(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener)
 
 /**
 * 获取下载的点读包列表
@@ -511,7 +511,7 @@ public static void getAllReadingPackage(Context context, int from, int size, Res
 * @param size     返回多少条数据
 * @param listener
 */
-public static void getDeviceReadingPackage(Context context, int from, int size, CommonResultListener<BeanBookListResult> listener)
+public static void getDeviceReadingPackage(Context context, int from, int size, CommonResultListener<BeanDeviceBookListResult> listener)
 
 ```
 
@@ -526,22 +526,51 @@ public class BeanBookListResult {
 }
 
 /**
-*  绘本详情
+*  列表返回的绘本/点读包详情
 */
 public class BeanBookDetail {
     private int id;
-    private String mid;//资源唯一id
-    private String bookName;//书名
-    private String author;//作者
-    private String cover;//封面地址
-    private long size;//点读包类型时为点读包大小，绘本类型时0
-    private int status; //添加状态 0未添加 1已添加
-    private int progress;//下载进度
-    private String readGuideHtml;//图文描述
-    private int downloadable; //是否可以下载 0：否 1：是
-    private int downloadStatus;//下载状态 0:等待下载 1：下载中 2：下载完成 3：下载是失败
+    private String bookName;
+    private String author;
+    private String cover;
+    private String mid;
+    private long size; //点读包 大小 字节
+    private int status;//下载状态 0等待下载 1下载中 2下载完成 3下载失败
+    private int downloadable; //是否可以下载 0否 1是
  }
- 
+
+/** 
+*  设备内的绘本/点读包详情
+*/
+ public class BeanDeviceBookInfo {
+    private int id;
+    private String bookName;
+    private String author;
+    private String cover;
+    private String mid;
+    private long size; //点读包 大小 字节
+    private int status;//下载状态 0等待下载 1下载中 2下载完成 3下载失败
+    private int progress;//下载进度 0-100
+ }
+
+/**
+*  绘本/点读包完整信息 
+*/
+public class BeanBookFullDetail{
+    private int id;
+    private String mid;
+    int dbId;
+    private int progress;
+    private String bookName;
+    private String author;
+    private String cover;
+    private long size;
+    private int status; //添加状态 0未添加 1已添加
+    private String readGuideHtml; //图文简介
+    private int downloadable;    //是否可以下载 0否 1是
+    private int downloadStatus; //下载状态 0等待下载 1下载中 2下载完成 3下载失败
+    private List<BeanBuyUrl> buyUrls;//购买链接
+}
  /**
 *  点读笔存储状态
 */
