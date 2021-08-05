@@ -125,8 +125,10 @@ public class MainActivity extends StpBaseActivity {
         mRvDeviceList.setAdapter(mDeviceListAdapter);
     }
 
+    /**
+     * 爱德思账号登录
+     */
     private void login() {
-
         AuthManager.login(mContext, DEMO_PHONE, DEMO_PWD, new CommonResultListener<BeanLoginData>() {
             @Override
             public void onResultSuccess(BeanLoginData beanResult) {
@@ -163,44 +165,46 @@ public class MainActivity extends StpBaseActivity {
         });
 
 
-//        /**
-//         * 第三方账号登录
-//         */
-//        AccountManager.loginEx(mContext, "客户用户唯一标识", "客户用户鉴权码", new LoginListener() {
-//            @Override
-//            public void onSuccess(BeanLoginData loginData) {
-//                try {
-//                    if (loginData.getDevices() != null && loginData.getDevices().size() > 0) {
-//                        /**
-//                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
-//                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
-//                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
-//                         */
-//                        mDeviceDetail = loginData.getDevices().get(0);
-//                        Log.i(TAG, "onSuccess set mDeviceDetail");
-//                        AccountManager.setDeviceInfo(mDeviceDetail.getId(), mDeviceDetail.getAppId());
-//
-//                        deviceName.setText(mDeviceDetail.getName());
-//                        sn.setText(mDeviceDetail.getId());
-//                        getDeviceList();
-//                    } else {
-//                        /**
-//                         * 没有绑定点读笔设备，跳转到绑定界面
-//                         */
-//                        PreConnectActivity.launch(mContext);
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(int code, String message) {
-//                Log.i(TAG, "code = " + code + "；message = " + message);
-//                Toaster.show(getString(R.string.login_activity_login_failed));
-//            }
-//        });
+    }
 
+    /**
+     * 第三方鉴权登录（需要接入方服务器开发鉴权接口，详见附件《服务器第三方校验文档.pdf》)
+     */
+    private void loginEx() {
+        AuthManager.loginEx(mContext, "接入方用户唯一标识", "接入方用户鉴权码", new CommonResultListener<BeanLoginData>() {
+            @Override
+            public void onResultSuccess(BeanLoginData loginData) {
+                try {
+                    if (loginData.getDevices() != null && loginData.getDevices().size() > 0) {
+                        /**
+                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
+                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
+                         * 存在绑定点读笔设备，设置sdk操作的设备id和appId，此步非常重要，不设置所有接口无法正常使用
+                         */
+                        mDeviceDetail = loginData.getDevices().get(0);
+                        Log.i(TAG, "onSuccess set mDeviceDetail");
+                        AuthManager.setDeviceInfo(mDeviceDetail.getId(), mDeviceDetail.getAppId());
+
+                        deviceName.setText(mDeviceDetail.getName());
+                        sn.setText(mDeviceDetail.getId());
+                        getDeviceList();
+                    } else {
+                        /**
+                         * 没有绑定点读笔设备，跳转到绑定界面
+                         */
+                        PreConnectActivity.launch(mContext);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onResultFailed(int code, String message) {
+                Log.i(TAG, "code = " + code + "；message = " + message);
+                Toaster.show(getString(R.string.login_activity_login_failed));
+            }
+        });
     }
 
     private void getDeviceList() {
