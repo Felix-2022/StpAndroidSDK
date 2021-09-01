@@ -256,7 +256,13 @@ public static void updateDeviceName(Context context, String deviceName, ResultLi
 */
 public static void deleteDevice(Context context, ResultListener listener) 
     
-    
+
+/**
+* 上传设备日志
+* @param context
+* @param listener
+*/
+public static void uploadDeviceLog(Context context, ResultListener listener)     
 ```
 #### 设备管理DeviceManager常用对象
 

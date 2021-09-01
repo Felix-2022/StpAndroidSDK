@@ -224,7 +224,7 @@ public class MainActivity extends StpBaseActivity {
 
     }
 
-    @OnClick({R.id.btn_device, R.id.btn_study, R.id.update_device_name, R.id.volume_add, R.id.volume_reduce, R.id.btn_book, R.id.btn_logout, R.id.btn_classroom, R.id.bind_pen, R.id.classroom_switcher, R.id.classroom_heart_beat, R.id.bind_push_id, R.id.read_book_page, R.id.read_book_range, R.id.report_range, R.id.report_page, R.id.report_trend, R.id.unbind, R.id.all_books, R.id.search_book, R.id.device_books, R.id.book_detail, R.id.download_book, R.id.delete_book, R.id.delete_books, R.id.storage, R.id.all_reading_package, R.id.device_reading_package})
+    @OnClick({R.id.btn_device, R.id.btn_study, R.id.update_device_name, R.id.volume_add, R.id.volume_reduce, R.id.btn_book, R.id.btn_logout, R.id.btn_classroom, R.id.bind_pen, R.id.classroom_switcher, R.id.classroom_heart_beat, R.id.bind_push_id, R.id.read_book_page, R.id.read_book_range, R.id.report_range, R.id.report_page, R.id.report_trend, R.id.unbind, R.id.all_books, R.id.search_book, R.id.device_books, R.id.book_detail, R.id.download_book, R.id.delete_book, R.id.delete_books, R.id.storage, R.id.all_reading_package, R.id.device_reading_package,R.id.upload_device_log})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.bind_pen:
@@ -666,6 +666,21 @@ public class MainActivity extends StpBaseActivity {
                     }
                 });
                 break;
+            case R.id.upload_device_log:
+                DeviceManager.uploadDeviceLog(this, new ResultListener() {
+                    @Override
+                    public void onSuccess(BeanResult beanResult) {
+                        Log.i(TAG, "onSuccess");
+                        Toaster.show(R.string.request_success);
+                    }
+
+                    @Override
+                    public void onError(int errCode, String errMsg) {
+                        Log.i(TAG, "onError errCode:" + errCode + ",errMsg:" + errMsg);
+                        Toaster.show(String.format(getString(R.string.request_fail), errCode, errMsg));
+                    }
+                });
+                break;
             case R.id.btn_logout:
                 AlertDialog logoutDialog = new AlertDialog.Builder(mContext)
                         .setMessage(R.string.logout_dialog).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -681,6 +696,7 @@ public class MainActivity extends StpBaseActivity {
                         }).create();
                 logoutDialog.show();
                 break;
+
         }
 
     }
