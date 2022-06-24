@@ -35,12 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.aiedevice.sdkdemo.activity.account.AccountManagerActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceManageActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.device.MasterListActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceStatusActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.device.DeviceSettingsActivity" />
-
         <activity
             android:name="com.aiedevice.sdkdemo.activity.blufi.PreConnectActivity"
             android:launchMode="singleTop"
@@ -59,11 +53,6 @@
             android:name="com.aiedevice.sdkdemo.activity.blufi.SendWifiInfoActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.PicBookManagerActiviy" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.PicbookUploadActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.sdcard.SdcardManagerActivity" />
-        <activity android:name="com.aiedevice.sdkdemo.activity.study.ClassroomActivity" />
         <service
             android:name="com.aiedevice.sdkdemo.push.StpPushService"
             android:exported="true"
